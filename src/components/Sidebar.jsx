@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   const [users, setUsers] = useState([]);
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     const fetchUser = async () => {
