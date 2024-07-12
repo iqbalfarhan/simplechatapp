@@ -2,6 +2,8 @@ import { RouterProvider, createHashRouter } from 'react-router-dom';
 import HomeLayout from './layouts/HomeLayout';
 import HomePage from './pages/HomePage';
 import ChatingPage from './pages/ChatingPage';
+import ProfilePage from './pages/ProfilePage';
+import SettingPage from './pages/SettingPage';
 
 const router = createHashRouter([
   {
@@ -11,6 +13,14 @@ const router = createHashRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />,
+      },
+      {
+        path: 'setting',
+        element: <SettingPage />,
       },
       {
         path: ':username',

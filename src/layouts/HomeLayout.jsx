@@ -10,9 +10,7 @@ const HomeLayout = () => {
       <div className="drawer-content flex flex-col h-screen">
         <Navbar />
         <div className="flex-1 overflow-y-scroll">
-          <div className="container min-h-full">
-            <Outlet />
-          </div>
+          <Outlet />
         </div>
         <SendMessage />
       </div>

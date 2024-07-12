@@ -11,7 +11,7 @@ import { useParams, Link } from 'react-router-dom';
 
 const Navbar = () => {
   const { username } = useParams();
-  const [isTyping] = useState(false);
+  const [isTyping] = useState(true);
 
   if (username) {
     return (
@@ -28,12 +28,10 @@ const Navbar = () => {
                 <img src={`https://robohash.org/${username}.jpg`} alt="User" />
               </div>
             </div>
-            <span>
-              @{username}{' '}
-              {isTyping && (
-                <small className="text-xs opacity-50">is typing...</small>
-              )}
-            </span>
+            <span>@{username}</span>
+            {isTyping && (
+              <small className="text-xs opacity-50">is typing...</small>
+            )}
           </h2>
         </div>
         <div className="flex-none">
@@ -80,10 +78,10 @@ const Navbar = () => {
         </h2>
       </div>
       <div className="navbar-end">
-        <Link to={'/'} className="btn btn-circle">
+        <Link to={'/setting'} className="btn btn-circle">
           <Settings size={20} />
         </Link>
-        <Link to={'/'} className="btn btn-circle">
+        <Link to={'/profile'} className="btn btn-circle">
           <User size={20} />
         </Link>
       </div>
