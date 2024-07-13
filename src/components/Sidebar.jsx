@@ -20,7 +20,7 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-96 bg-base-200 h-screen">
+    <div className="flex flex-col w-80 lg:w-96 bg-base-200 h-screen">
       <div className="flex-none navbar gap-2 bg-base-300">
         <div className="flex-none">
           <button className="btn btn-circle">
@@ -48,7 +48,7 @@ const Sidebar = () => {
             .map((user) => (
               <li key={user.id}>
                 <NavLink to={`/${user.username}`} className={'flex gap-2'}>
-                  <div className="avatar flex-none online">
+                  <div className="avatar flex-none">
                     <div className="w-10 rounded-full bg-black">
                       <img
                         src={`https://robohash.org/${user.username}.jpg`}

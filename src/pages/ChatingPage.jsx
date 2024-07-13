@@ -1,33 +1,31 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import LoadingChat from '../components/LoadingChat';
+import socket from '../services/socket';
+import useAuth from '../hooks/useAuth';
 
 const ChatingPage = () => {
   const { username } = useParams();
-  const [chats, setChats] = useState([]);
-
-  const fetchChats = async () => {
-    const response = await fetch(
-      `https://dummyjson.com/comments?limit=${Math.round(
-        Math.random() * 10
-      )}&skip=${Math.round(Math.random() * 2)}`
-    );
-    if (response.ok) {
-      const data = await response.json();
-      setChats(data.comments);
-    }
-  };
+  const { user } = useAuth();
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    fetchChats();
+    console.log('Effect triggered'); // Tambahkan ini untuk memeriksa apakah useEffect dipanggil
+    socket.on('message', (message) => {
+      console.log('Message received:', message); // Tambahkan ini untuk memeriksa pesan yang diterima dari server
+      try {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      } catch (error) {
+        console.error('Error parsing message:', error);
+      }
+    });
+
+    return () => {
+      socket.off('message');
+    };
   }, []);
 
-  useEffect(() => {
-    setChats([]);
-    fetchChats();
-  }, [username]);
-
-  if (chats.length == 0) {
+  if (messages.length === 0) {
     return (
       <div className="flex flex-col p-6 h-full justify-center max-w-4xl mx-auto">
         <LoadingChat />
@@ -37,24 +35,22 @@ const ChatingPage = () => {
 
   return (
     <div className="flex flex-col p-6 h-full justify-end max-w-4xl mx-auto">
-      {chats.map((chat) => {
-        const isMe = +chat.postId % 2 == 0;
+      {messages.map((chat, index) => {
+        const isMe = chat.username == user;
         return (
           <div
-            className={`chat ${isMe ? 'chat-start' : 'chat-end'}`}
-            key={chat.id}
+            className={`chat ${isMe ? 'chat-end' : 'chat-start'}`}
+            key={index}
           >
             <div className="chat-image avatar">
               <div className="w-10 rounded-full">
                 <img
-                  src={`https://robohash.org/${
-                    isMe ? username : 'iqbalfarhan'
-                  }.jpg`}
+                  src={`https://robohash.org/${isMe ? user : username}.jpg`}
                   alt="User"
                 />
               </div>
             </div>
-            <div className="chat-bubble">{chat.body}</div>
+            <div className="chat-bubble">{chat.message}</div>
           </div>
         );
       })}

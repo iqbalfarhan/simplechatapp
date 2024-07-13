@@ -6,12 +6,24 @@ import {
   EllipsisVertical,
   ArrowLeft,
 } from 'lucide-react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import socket from '../services/socket';
 
 const Navbar = () => {
   const { username } = useParams();
-  const [isTyping] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    socket.on('typing', () => {
+      setIsTyping(true);
+    });
+
+    socket.on('stop typing', () => {
+      setIsTyping(false);
+    });
+  }, []);
 
   if (username) {
     return (
@@ -30,7 +42,9 @@ const Navbar = () => {
             </div>
             <span>@{username}</span>
             {isTyping && (
-              <small className="text-xs opacity-50">is typing...</small>
+              <small className="text-xs opacity-50 text-success">
+                is typing...
+              </small>
             )}
           </h2>
         </div>
@@ -74,7 +88,7 @@ const Navbar = () => {
       <div className="navbar-start"></div>
       <div className="navbar-center">
         <h2 className="btn btn-ghost text-lg">
-          <span>Kontakku</span>
+          <span>simplechatapp</span>
         </h2>
       </div>
       <div className="navbar-end">

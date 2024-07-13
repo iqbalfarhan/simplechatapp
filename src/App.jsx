@@ -1,11 +1,16 @@
-import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { RouterProvider, createHashRouter, Navigate } from 'react-router-dom';
 import HomeLayout from './layouts/HomeLayout';
+import AuthLayout from './layouts/AuthLayout';
+
 import HomePage from './pages/HomePage';
 import ChatingPage from './pages/ChatingPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingPage from './pages/SettingPage';
+import LoginPage from './pages/auth/LoginPage';
 
-const router = createHashRouter([
+import useAuth from './hooks/useAuth';
+
+const AppRouter = createHashRouter([
   {
     path: '/',
     element: <HomeLayout />,
@@ -30,8 +35,24 @@ const router = createHashRouter([
   },
 ]);
 
+const AuthRouter = createHashRouter([
+  {
+    path: '/',
+    element: <AuthLayout />,
+    errorElement: <Navigate to={'/'} />,
+    children: [
+      {
+        index: true,
+        element: <LoginPage />,
+      },
+    ],
+  },
+]);
+
 const App = () => {
-  return <RouterProvider router={router} />;
+  const { user } = useAuth();
+
+  return <RouterProvider router={user ? AppRouter : AuthRouter} />;
 };
 
 export default App;

@@ -5,8 +5,8 @@ import SendMessage from '../components/SendMessage';
 
 const HomeLayout = () => {
   return (
-    <div className="drawer lg:drawer-open h-screen max-h-80">
-      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+    <div className="drawer md:drawer-open h-screen max-h-80">
+      <input id="drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col h-screen">
         <Navbar />
         <div className="flex-1 overflow-y-scroll">
@@ -16,7 +16,7 @@ const HomeLayout = () => {
       </div>
       <div className="drawer-side">
         <label
-          htmlFor="my-drawer-2"
+          htmlFor="drawer"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
