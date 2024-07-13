@@ -39,11 +39,14 @@ const AuthRouter = createHashRouter([
   {
     path: '/',
     element: <AuthLayout />,
-    errorElement: <Navigate to={'/'} />,
     children: [
       {
         index: true,
         element: <LoginPage />,
+      },
+      {
+        path: '*',
+        element: <Navigate to="/" replace />,
       },
     ],
   },
